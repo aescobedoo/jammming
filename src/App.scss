@@ -1,0 +1,75 @@
+* {
+  box-sizing: border-box;
+  margin: none;
+  padding: none;
+}
+
+html {
+  background-color: rgb(35, 35, 35);
+  font-size: 16px;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  background-color: rgb(35, 35, 35);
+  color: rgb(255, 255, 255);
+  padding: 1vh;
+  #login {
+    background-color: rgb(223, 128, 255);
+    padding: 20px;
+    border-radius: 20px;
+    border: none;
+    font-weight: 700;
+    font-size: 1.2rem;
+    position: absolute;
+    top: 50vh;
+  }
+  #logout {
+    background-color: rgb(223, 128, 255);
+    padding: 10px;
+    border-radius: 15px;
+    border: none;
+    font-weight: 700;
+    font-size: 1rem;
+    position: absolute;
+    right: 2vh;
+  }
+  .SearchBar{
+    width: 40%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #fff;
+    input {
+      border: none;
+      background-color: transparent;
+      font-size: 1.2rem;
+      width: 100%;
+      height: 100%;
+      color: #fff;
+      &:focus {
+        outline: none;
+      }
+    }
+    .clear {
+      border: none;
+      background-color: transparent;
+      font-size: 1.2rem;
+      color: #fff;
+      position: absolute;
+    }
+  }
+  .columns {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    .left, .right {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    align-items: center;
+  }
+  }
+}

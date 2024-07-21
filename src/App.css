@@ -1,38 +1,75 @@
+* {
+  box-sizing: border-box;
+  margin: none;
+  padding: none;
+}
+
+html {
+  background-color: rgb(35, 35, 35);
+  font-size: 16px;
+}
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  height: 100vh;
+  background-color: rgb(35, 35, 35);
+  color: rgb(255, 255, 255);
+  padding: 1vh;
 }
-
-.App-link {
-  color: #61dafb;
+.App #login {
+  background-color: rgb(223, 128, 255);
+  padding: 20px;
+  border-radius: 20px;
+  border: none;
+  font-weight: 700;
+  font-size: 1.2rem;
+  position: absolute;
+  top: 50vh;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.App #logout {
+  background-color: rgb(223, 128, 255);
+  padding: 10px;
+  border-radius: 15px;
+  border: none;
+  font-weight: 700;
+  font-size: 1rem;
+  position: absolute;
+  right: 2vh;
+}
+.App .SearchBar {
+  width: 40%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #fff;
+}
+.App .SearchBar input {
+  border: none;
+  background-color: transparent;
+  font-size: 1.2rem;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+}
+.App .SearchBar input:focus {
+  outline: none;
+}
+.App .SearchBar .clear {
+  border: none;
+  background-color: transparent;
+  font-size: 1.2rem;
+  color: #fff;
+  position: absolute;
+}
+.App .columns {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.App .columns .left, .App .columns .right {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+  align-items: center;
 }
