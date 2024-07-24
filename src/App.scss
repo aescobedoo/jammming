@@ -1,11 +1,18 @@
+$mainBackground: rgb(245, 245, 245);
+$letterColor: rgb(45, 45, 45);
+$pink: rgb(234, 172, 255);
+%bottomLine {
+  border-bottom: 2px solid $letterColor;
+}
+
 * {
-  box-sizing: border-box;
+  box-sizing: borderBox;
   margin: none;
   padding: none;
 }
 
 html {
-  background-color: rgb(35, 35, 35);
+  background-color: $mainBackground;
   font-size: 16px;
 }
 
@@ -13,12 +20,59 @@ html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
-  background-color: rgb(35, 35, 35);
-  color: rgb(255, 255, 255);
-  padding: 1vh;
+  height: fit-content;
+  background-color: $mainBackground;
+  color: $letterColor;
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 4rem;
+    background-color: $letterColor;
+    color: $mainBackground;
+    .device {
+      display: flex;
+      height: 100%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      > * {
+        margin: 0;
+        padding: 0;
+      }
+      #dropdown {
+        background-color: transparent;
+        color: $mainBackground;
+        font-weight: 500;
+        border: none;
+        font-size: 1rem;
+        cursor: pointer;
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+    .playback {
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      width: 45%;
+      p {
+        margin-right: .5rem;
+      }
+      #playback {
+        background-color: $pink;
+        padding: 10px;
+        border-radius: 15px;
+        border: none;
+        font-weight: 700;
+        font-size: 1rem;
+      }
+    }
+  }
   #login {
-    background-color: rgb(223, 128, 255);
+    background-color: $pink;
     padding: 20px;
     border-radius: 20px;
     border: none;
@@ -28,27 +82,26 @@ html {
     top: 50vh;
   }
   #logout {
-    background-color: rgb(223, 128, 255);
+    background-color: $pink;
     padding: 10px;
     border-radius: 15px;
     border: none;
     font-weight: 700;
     font-size: 1rem;
-    position: absolute;
-    right: 2vh;
   }
-  .SearchBar{
+  .SearchBar {
+    display: flex;
     width: 40%;
     padding: 10px;
     margin-bottom: 10px;
-    border-bottom: 1px solid #fff;
+    @extend %bottomLine;
     input {
       border: none;
       background-color: transparent;
       font-size: 1.2rem;
       width: 100%;
       height: 100%;
-      color: #fff;
+      color: $letterColor;
       &:focus {
         outline: none;
       }
@@ -57,19 +110,125 @@ html {
       border: none;
       background-color: transparent;
       font-size: 1.2rem;
-      color: #fff;
-      position: absolute;
+      color: $letterColor;
     }
   }
   .columns {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     width: 100%;
-    .left, .right {
-    display: flex;
-    flex-direction: column;
-    width: 45%;
-    align-items: center;
+    margin-top: 1vh;
+    .left,
+    .right {
+      display: flex;
+      flex-direction: column;
+      width: 45%;
+      align-items: center;
+      background-color: $pink;
+      border-radius: 50px;
+      padding-bottom: 1.5rem;
+    }
+    .right {
+      .creator {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        form {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 75%;
+          #title {
+            border: none;
+            background-color: transparent;
+            font-size: 1.5rem;
+            width: 100%;
+            height: 50%;
+            color: $letterColor;
+            font-weight: 900;
+            border-bottom: 2px solid $letterColor;
+            &:focus {
+              outline: none;
+            }
+          }
+          #description {
+            font-family: Helvetica, sans-serif;
+            font-weight: 300;
+            border: none;
+            background-color: transparent;
+            height: 3rem;
+            width: 100%;
+            color: $letterColor;
+            resize: none;
+            padding-bottom: 1rem;
+            margin: 1rem 0;
+            border-bottom: 2px solid $letterColor;
+            &:focus {
+              outline: none;
+            }
+          }
+          button {
+            color: $pink;
+            background-color: $letterColor;
+            font-weight: 900;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 2rem;
+            width: fit-content;
+            cursor: pointer;
+          }
+        }
+      }
+    }
   }
+}
+
+.result {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  list-style: none;
+  width: 80%;
+  margin: 0;
+  padding: 0;
+  li {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    padding-bottom: 0.5rem;
+    @extend %bottomLine;
+    .text {
+      width: 95%;
+      text-align: start;
+      height: fit-content;
+      > * {
+        margin: 0.5rem 0;
+      }
+      h3 {
+        font-size: 1.5rem;
+      }
+      h4 {
+        font-weight: 500;
+      }
+      h5 {
+        font-weight: 300;
+      }
+    }
+    button {
+      display: flex;
+      align-items: center;
+      background-color: transparent;
+      color: $letterColor;
+      font-size: 1.5rem;
+      font-weight: 900;
+      border: none;
+      padding: 1.5rem 1rem;
+      border-radius: 1rem;
+      width: fit-content;
+      height: 1.5rem;
+      cursor: pointer;
+      margin-left: 1rem;
+    }
   }
 }

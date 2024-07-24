@@ -1,11 +1,15 @@
+.result li, .App .SearchBar {
+  border-bottom: 2px solid rgb(45, 45, 45);
+}
+
 * {
-  box-sizing: border-box;
+  box-sizing: borderBox;
   margin: none;
   padding: none;
 }
 
 html {
-  background-color: rgb(35, 35, 35);
+  background-color: rgb(245, 245, 245);
   font-size: 16px;
 }
 
@@ -13,13 +17,60 @@ html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
-  background-color: rgb(35, 35, 35);
-  color: rgb(255, 255, 255);
-  padding: 1vh;
+  height: fit-content;
+  background-color: rgb(245, 245, 245);
+  color: rgb(45, 45, 45);
+}
+.App .top {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  height: 4rem;
+  background-color: rgb(45, 45, 45);
+  color: rgb(245, 245, 245);
+}
+.App .top .device {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.App .top .device > * {
+  margin: 0;
+  padding: 0;
+}
+.App .top .device #dropdown {
+  background-color: transparent;
+  color: rgb(245, 245, 245);
+  font-weight: 500;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.App .top .device #dropdown:focus {
+  outline: none;
+}
+.App .top .playback {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 45%;
+}
+.App .top .playback p {
+  margin-right: 0.5rem;
+}
+.App .top .playback #playback {
+  background-color: rgb(234, 172, 255);
+  padding: 10px;
+  border-radius: 15px;
+  border: none;
+  font-weight: 700;
+  font-size: 1rem;
 }
 .App #login {
-  background-color: rgb(223, 128, 255);
+  background-color: rgb(234, 172, 255);
   padding: 20px;
   border-radius: 20px;
   border: none;
@@ -29,20 +80,18 @@ html {
   top: 50vh;
 }
 .App #logout {
-  background-color: rgb(223, 128, 255);
+  background-color: rgb(234, 172, 255);
   padding: 10px;
   border-radius: 15px;
   border: none;
   font-weight: 700;
   font-size: 1rem;
-  position: absolute;
-  right: 2vh;
 }
 .App .SearchBar {
+  display: flex;
   width: 40%;
   padding: 10px;
   margin-bottom: 10px;
-  border-bottom: 1px solid #fff;
 }
 .App .SearchBar input {
   border: none;
@@ -50,7 +99,7 @@ html {
   font-size: 1.2rem;
   width: 100%;
   height: 100%;
-  color: #fff;
+  color: rgb(45, 45, 45);
 }
 .App .SearchBar input:focus {
   outline: none;
@@ -59,17 +108,120 @@ html {
   border: none;
   background-color: transparent;
   font-size: 1.2rem;
-  color: #fff;
-  position: absolute;
+  color: rgb(45, 45, 45);
 }
 .App .columns {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 100%;
+  margin-top: 1vh;
 }
-.App .columns .left, .App .columns .right {
+.App .columns .left,
+.App .columns .right {
   display: flex;
   flex-direction: column;
   width: 45%;
   align-items: center;
+  background-color: rgb(234, 172, 255);
+  border-radius: 50px;
+  padding-bottom: 1.5rem;
+}
+.App .columns .right .creator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.App .columns .right .creator form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 75%;
+}
+.App .columns .right .creator form #title {
+  border: none;
+  background-color: transparent;
+  font-size: 1.5rem;
+  width: 100%;
+  height: 50%;
+  color: rgb(45, 45, 45);
+  font-weight: 900;
+  border-bottom: 2px solid rgb(45, 45, 45);
+}
+.App .columns .right .creator form #title:focus {
+  outline: none;
+}
+.App .columns .right .creator form #description {
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  border: none;
+  background-color: transparent;
+  height: 3rem;
+  width: 100%;
+  color: rgb(45, 45, 45);
+  resize: none;
+  padding-bottom: 1rem;
+  margin: 1rem 0;
+  border-bottom: 2px solid rgb(45, 45, 45);
+}
+.App .columns .right .creator form #description:focus {
+  outline: none;
+}
+.App .columns .right .creator form button {
+  color: rgb(234, 172, 255);
+  background-color: rgb(45, 45, 45);
+  font-weight: 900;
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: 2rem;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.result {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  list-style: none;
+  width: 80%;
+  margin: 0;
+  padding: 0;
+}
+.result li {
+  display: flex;
+  align-items: center;
+  width: 90%;
+  padding-bottom: 0.5rem;
+}
+.result li .text {
+  width: 95%;
+  text-align: start;
+  height: fit-content;
+}
+.result li .text > * {
+  margin: 0.5rem 0;
+}
+.result li .text h3 {
+  font-size: 1.5rem;
+}
+.result li .text h4 {
+  font-weight: 500;
+}
+.result li .text h5 {
+  font-weight: 300;
+}
+.result li button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  color: rgb(45, 45, 45);
+  font-size: 1.5rem;
+  font-weight: 900;
+  border: none;
+  padding: 1.5rem 1rem;
+  border-radius: 1rem;
+  width: fit-content;
+  height: 1.5rem;
+  cursor: pointer;
+  margin-left: 1rem;
 }

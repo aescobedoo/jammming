@@ -4,13 +4,15 @@ import Button from "./components/Button";
 import Search from "./components/SearchBar";
 import Results from "./components/Results";
 import PlaylistCreator from "./components/PlaylistCreator";
+import Dropdown from "./components/Select";
 
 const CLIENT_ID = "f7a35419aa8a4e0dbb1eab58c1d447e3"; // your clientId
 const REDIRECT_URI = "http://localhost:3000"; // your redirect URL
 const AUTHORIZATION_ENDPOINT = "https://accounts.spotify.com/authorize";
 const TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token";
 const SCOPE =
-  "user-top-read user-library-modify playlist-read-private playlist-modify-private playlist-modify-public user-read-private user-read-email";
+  "user-read-playback-state user-modify-playback-state user-top-read user-library-modify playlist-read-private playlist-modify-private playlist-modify-public user-read-private user-read-email";
+const DEVICE_ID = ["74ASZWbe4lXaubB36ztrGX"];
 
 const App = () => {
   const [token, setToken] = useState(localStorage.getItem("access_token"));
@@ -130,6 +132,7 @@ const App = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
 
+    getDevices();
     if (code && !token) {
       getToken(code);
     } else if (token && isTokenExpired()) {
@@ -166,7 +169,7 @@ const App = () => {
     e.preventDefault();
     setSearch("");
     setSongs([]);
-  }
+  };
   const [songs, setSongs] = useState([]);
 
   const fetchSongs = async () => {
@@ -195,7 +198,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetchTopTracks();
+    //fetchTopTracks();
   }, [token]);
 
   useEffect(() => {
@@ -287,30 +290,102 @@ const App = () => {
     });
   };
 
+  const [devices, setDevices] = useState([]);
+  const getDevices = async () => {
+    const data = await fetchWebApi("v1/me/player/devices", "GET");
+    console.log(data.devices);
+    setDevices(data.devices);
+  };
+
+  const [currentDevice, setCurrentDevice] = useState(null);
+  const [currentSong, setCurrentSong] = useState(null);
+  const [reproducing, setReproducing] = useState(false);
+
+  const handleSelect = ({ target }) => {
+    console.log(target.value);
+    setCurrentDevice(target.value);
+  };
+
+  const handleSong = (song) => {
+    console.log(song);
+    setCurrentSong(song);
+  };
+
+  const playback = async (song) => {
+    if (!currentDevice) return;
+    setReproducing(true);
+    try {
+      const response = await fetchWebApi(
+        `v1/me/player/play?device_id=${currentDevice}`,
+        "PUT",
+        {
+          uris: [currentSong.uri],
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const pause = async () => {
+    setReproducing(false);
+    try {
+      const response = await fetchWebApi(
+        `v1/me/player/pause?device_id=${currentDevice}`,
+        "PUT"
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="App">
-      {!token ? (
-        <Button onClick={login} text={"Login to Spotify"} id={"login"} />
-      ) : (
-        <Button onClick={logout} text={"Log out"} id={"logout"} />
-      )}
+      <div className="top">
+        {!devices ? null : (
+          <div className="device">
+            <h5>Playng in:</h5>
+            <Dropdown handleSelect={handleSelect} devices={devices} />
+          </div>
+        )}
+        <div className="playback">
+          <p>Playing:</p>
+          <h3>{currentSong ? currentSong.name : null}</h3>
+          {!reproducing ? (
+            <Button onClick={playback} text={"Play"} id={"playback"} />
+          ) : (
+            <Button onClick={pause} text={"Pause"} id={"playback"} />
+          )}
+        </div>
+        {!token ? (
+          <Button onClick={login} text={"Login to Spotify"} id={"login"} />
+        ) : (
+          <Button onClick={logout} text={"Log out"} id={"logout"} />
+        )}
+      </div>
       {userData && (
         <>
           <h1>Welcome{", " + userData.display_name}</h1>
-          <Search handleInput={handleInput} searchValue={search} handleClear={clearSearch}/>
+          <Search
+            handleInput={handleInput}
+            searchValue={search}
+            handleClear={clearSearch}
+          />
           <div className="columns">
             <div className="left">
               <h2>Top Recomendations</h2>
               <Results
                 render={recomended}
                 handleClick={addToPlaylist}
-                buttonText={"Add to playlist"}
+                buttonText={"+"}
+                handleSong={handleSong}
               />
               <h2>Search</h2>
               <Results
                 render={songs}
                 handleClick={addToPlaylist}
-                buttonText={"Add to playlist"}
+                buttonText={"+"}
+                handleSong={handleSong}
               />
             </div>
             <div className="right">
@@ -324,7 +399,8 @@ const App = () => {
               <Results
                 render={playlist}
                 handleClick={removeFromPlaylist}
-                buttonText={"remove"}
+                buttonText={"-"}
+                handleSong={handleSong}
               />
             </div>
           </div>

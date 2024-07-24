@@ -8,7 +8,7 @@ export default function PlaylistCreator({
   handleSubmit,
 }) {
   return (
-    <div>
+    <div className="creator">
       <h2>Playlist Creator</h2>
       <form onSubmit={(e) => handleSubmit(e)}>
         <input
