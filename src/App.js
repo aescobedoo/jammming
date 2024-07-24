@@ -7,7 +7,7 @@ import PlaylistCreator from "./components/PlaylistCreator";
 import Dropdown from "./components/Select";
 
 const CLIENT_ID = "f7a35419aa8a4e0dbb1eab58c1d447e3"; // your clientId
-const REDIRECT_URI = "https://aescobedoo.github.io/jammming/"; // your redirect URL
+const REDIRECT_URI = "https://aescobedoo.github.io/jammming"; // your redirect URL
 const AUTHORIZATION_ENDPOINT = "https://accounts.spotify.com/authorize";
 const TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token";
 const SCOPE =
