@@ -12,7 +12,6 @@ const AUTHORIZATION_ENDPOINT = "https://accounts.spotify.com/authorize";
 const TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token";
 const SCOPE =
   "user-read-playback-state user-modify-playback-state user-top-read user-library-modify playlist-read-private playlist-modify-private playlist-modify-public user-read-private user-read-email";
-const DEVICE_ID = ["74ASZWbe4lXaubB36ztrGX"];
 
 const App = () => {
   const [token, setToken] = useState(localStorage.getItem("access_token"));
@@ -132,14 +131,18 @@ const App = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
 
-    getDevices();
     if (code && !token) {
-      getToken(code);
+      getToken(code).then(() => {
+        // Remove the code parameter from the URL
+        window.history.replaceState({}, document.title, "/");
+      });
     } else if (token && isTokenExpired()) {
       refreshToken();
     } else if (token) {
       getUserData();
     }
+
+    getDevices();
   }, [token]);
 
   const [userData, setUserData] = useState(null);
@@ -157,6 +160,13 @@ const App = () => {
     localStorage.clear();
     setToken(null);
     setUserData(null);
+    setSearch("");
+    setSongs([]);
+    setSeedTracks(null);
+    setRecomended([]);
+    setPlaylistName("");
+    setPlaylistDescription("");
+    setPlaylist([]);
   };
 
   const [search, setSearch] = useState("");
@@ -198,7 +208,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    //fetchTopTracks();
+    fetchTopTracks();
   }, [token]);
 
   useEffect(() => {
@@ -320,6 +330,7 @@ const App = () => {
         "PUT",
         {
           uris: [currentSong.uri],
+          position_ms: 60000,
         }
       );
     } catch (err) {
@@ -343,20 +354,22 @@ const App = () => {
     <div className="App">
       <div className="top">
         {!devices ? null : (
-          <div className="device">
-            <h5>Playng in:</h5>
-            <Dropdown handleSelect={handleSelect} devices={devices} />
-          </div>
+          <>
+            <div className="device">
+              <h5>Playng in:</h5>
+              <Dropdown handleSelect={handleSelect} devices={devices} />
+            </div>
+            <div className="playback">
+              <p>Playing:</p>
+              <h3>{currentSong ? currentSong.name : null}</h3>
+              {!reproducing ? (
+                <Button onClick={playback} text={"Play"} id={"playback"} />
+              ) : (
+                <Button onClick={pause} text={"Pause"} id={"playback"} />
+              )}
+            </div>
+          </>
         )}
-        <div className="playback">
-          <p>Playing:</p>
-          <h3>{currentSong ? currentSong.name : null}</h3>
-          {!reproducing ? (
-            <Button onClick={playback} text={"Play"} id={"playback"} />
-          ) : (
-            <Button onClick={pause} text={"Pause"} id={"playback"} />
-          )}
-        </div>
         {!token ? (
           <Button onClick={login} text={"Login to Spotify"} id={"login"} />
         ) : (
